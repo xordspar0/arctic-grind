@@ -1,14 +1,28 @@
 game_name = arctic-grind
 game_version = devel
+release_mode = debug
 
-env = GAME_VERSION=$(game_version)
+env = GAME_VERSION=$(game_version) ANDROID_SDK_ROOT=$${HOME}/Android/Sdk
 
 # Building commands
-love_file = $(game_name)-$(game_version).love
-love: build/$(love_file)
+apk_file = build/$(game_name)-$(game_version).apk
+app: $(apk_file)
 
-build/$(love_file): $(shell find ./src/ -type f)
+love_file = build/$(game_name)-$(game_version).love
+love: $(love_file)
+
+$(apk_file): $(love_file)
+	sed -i /android.permission.BLUETOOTH/d love-android/app/src/main/AndroidManifest.xml
+	cd love-android && $(env) ./gradlew assembleEmbed
+	cp love-android/app/build/outputs/apk/embed/$(release_mode)/app-embed-$(release_mode).apk $(apk_file)
+
+$(love_file): $(shell find ./src/ -type f)
 	$(env) scripts/package-love.sh $@
+
+# Debugging commands
+
+install: $(apk_file)
+	adb install -r $(apk_file)
 
 # Maintenance commands
 check:
