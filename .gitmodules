@@ -1,0 +1,3 @@
+[submodule "love-android"]
+	path = love-android
+	url = git@github.com:xordspar0/love-android.git
