@@ -5,29 +5,14 @@ local Fox = {}
 Fox.__index = Fox
 
 Fox.animations = {
-	attack = {
+	jump = {
 		sprite = sprite.new(
 			resources.loadSprite("fox", "fox.png"),
 			{						-- List of all of frames in the animation.
 				{x = 0, y = 0},
-				{x = 64, y = 0},
-				{x = 128, y = 0},
-				{x = 192, y = 0},
 			},
 			64, 64, 0,				-- The width and height of each frame, how high the feet are in that frame.
-			10						-- The frames per second of this animation.
-		),
-		loop = false
-	},
-
-	jump = {
-		sprite = sprite.new(
-			resources.loadSprite("fox", "fox.png"),
-			{
-				{x = 0, y = 0},
-			},
-			64, 64, 0,
-			5
+			5						-- The frames per second of this animation.
 		),
 		loop = true
 	},

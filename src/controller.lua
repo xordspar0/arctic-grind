@@ -26,7 +26,6 @@ function controller:joystickassign()
 		self.right = "dpright"
 		self.left = "dpleft"
 		self.jump = "a"
-		self.attack = "b"
 	else
 		self.type = "keyboard"
 		self.joystick = nil
@@ -34,7 +33,6 @@ function controller:joystickassign()
 		self.right = "right"
 		self.left = "left"
 		self.jump = "up"
-		self.attack = "return"
 	end
 end
 

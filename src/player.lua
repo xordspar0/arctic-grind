@@ -54,10 +54,6 @@ function player:update(dt)
 		self.yAccel = 0
 	end
 
-	if self.character:getAnim() == "attack" and self.character.animationOver then
-		self.character:setAnim("stand")
-	end
-
 	-- Apply acceleration and velocity; set coordinates accordingly.
 	self.yVelocity = self.yVelocity + (self.yAccel * dt)
 	self.x = self.x + (self.xVelocity * dt)
@@ -85,8 +81,7 @@ function player:input()
 			self.xVelocity = -self.walkingVelocity
 		end
 		if self:isOnGround() and
-		   self.character:getAnim() ~= "walk" and
-		   self.character:getAnim() ~= "attack" then
+		   self.character:getAnim() ~= "walk" then
 			self.character:setAnim("walk")
 		end
 	else
@@ -98,16 +93,9 @@ function player:input()
 
 	if self:isOnGround() and self.controller:isDown("jump") then
 		self.yVelocity = self.jumpVelocity
-		if self.character:getAnim() ~= "attack" then
-			self.character:setAnim("jump")
-		end
 	end
 	if self.onGround and self.character:getAnim() == "jump" then
 		self.character:setAnim("stand")
-	end
-
-	if self.controller:isDown("attack") and self.character:getAnim() ~= "attack" then
-		self.character:setAnim("attack")
 	end
 end
 
