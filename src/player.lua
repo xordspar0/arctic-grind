@@ -8,7 +8,7 @@ function player.new(x, y)
 	local self = {}
 	setmetatable(self, {__index = player})
 
-	self.controller = controller.new("keyboard")
+	self.controller = controller.new()
 	self.character = resources.loadCharacter("fox")
 
 	-- Set up innate properties.
@@ -69,6 +69,10 @@ function player:draw()
 	local y = math.floor(self.y)
 
 	self.character:draw(x, y, self.facing)
+end
+
+function player:joystickadded()
+	self.controller:joystickassign()
 end
 
 function player:input()

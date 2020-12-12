@@ -1,32 +1,40 @@
 local controller = {}
 
-function controller.new(controllerType)
+function controller.new()
 	local self = {}
 	setmetatable(self, {__index = controller})
 
-	self.type = controllerType
-
-	if self.type == "keyboard" then
-		self.right = "right"
-		self.left = "left"
-		self.jump = "up"
-		self.attack = "return"
-	end
+	self:joystickassign()
 
 	return self
 end
 
 function controller:isDown(button)
 	if self.type == "keyboard" then
-		if button == "right" then
-			return love.keyboard.isDown(self.right)
-		elseif button == "left" then
-			return love.keyboard.isDown(self.left)
-		elseif button == "jump" then
-			return love.keyboard.isDown(self.jump)
-		elseif button == "attack" then
-			return love.keyboard.isDown(self.attack)
-		end
+		return love.keyboard.isDown(self[button])
+	elseif self.type == "joystick" then
+		return self.joystick:isGamepadDown(self[button])
+	end
+end
+
+function controller:joystickassign()
+	local joysticks = love.joystick.getJoysticks()
+	if #joysticks > 0 then
+		self.type = "joystick"
+		self.joystick = joysticks[1]
+
+		self.right = "dpright"
+		self.left = "dpleft"
+		self.jump = "a"
+		self.attack = "b"
+	else
+		self.type = "keyboard"
+		self.joystick = nil
+
+		self.right = "right"
+		self.left = "left"
+		self.jump = "up"
+		self.attack = "return"
 	end
 end
 

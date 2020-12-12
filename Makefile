@@ -13,6 +13,7 @@ love_file = build/$(game_name)-$(game_version).love
 love: $(love_file)
 
 $(apk_file): $(love_file) meta/build.gradle meta/AndroidManifest.xml meta/banner.png
+	mkdir -p love-android/app/src/main/assets && cp $(love_file) love-android/app/src/main/assets/game.love
 	cp meta/build.gradle love-android/app/build.gradle
 	cp meta/AndroidManifest.xml love-android/app/src/embed/AndroidManifest.xml
 	cp meta/banner.png love-android/app/src/main/res/drawable-xhdpi/love.png
