@@ -55,3 +55,9 @@ function love.keypressed(key)
 		love.event.quit()
 	end
 end
+
+function love.joystickadded()
+	for i, player in ipairs(state.players) do
+		player:joystickadded()
+	end
+end
