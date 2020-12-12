@@ -10,7 +10,6 @@ function controller.new()
 end
 
 function controller:isDown(button)
-	print(self.type)
 	if self.type == "keyboard" then
 		return love.keyboard.isDown(self[button])
 	elseif self.type == "joystick" then
@@ -20,7 +19,6 @@ end
 
 function controller:joystickassign()
 	local joysticks = love.joystick.getJoysticks()
-	print(#joysticks)
 	if #joysticks > 0 then
 		self.type = "joystick"
 		self.joystick = joysticks[1]
