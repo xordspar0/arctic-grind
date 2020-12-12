@@ -23,7 +23,7 @@ function love.load()
 
 	state.cameras = {
 		camera.new(0, 0, love.graphics.getWidth(), love.graphics.getHeight(),
-		           "vpan", state.level.height, 10),
+		           state.level.height, 10),
 	}
 
 	state.players = {}
