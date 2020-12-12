@@ -24,6 +24,9 @@ $(love_file): $(shell find ./src/ -type f)
 install: $(apk_file)
 	adb install -r $(apk_file)
 
+launch: install
+	adb shell am start -n "org.love2d.android.embed/org.love2d.android.GameActivity" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER
+
 # Maintenance commands
 check:
 	find src -name '*.lua' -not -path 'src/vendor/*' | xargs wc -l | sort -rg
@@ -41,4 +44,4 @@ luacheck:
 test:
 	love src --test
 
-.PHONY: check clean dep love luacheck test
+.PHONY: check clean dep install launch love luacheck test
