@@ -9,7 +9,7 @@ function player.new(x, y)
 	setmetatable(self, {__index = player})
 
 	self.controller = controller.new("keyboard")
-	self.character = resources.loadCharacter("chicken")
+	self.character = resources.loadCharacter("fox")
 
 	-- Set up innate properties.
 	self.width = 32
