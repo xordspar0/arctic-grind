@@ -13,7 +13,7 @@ function controller:isDown(button)
 	if self.type == "keyboard" then
 		return love.keyboard.isDown(self[button])
 	elseif self.type == "joystick" then
-		return self.joystick:isGamepadDown(self[button])
+		return self.joystick:isGamepadDown(self[button]) or self:isJoystickDir(button)
 	end
 end
 
@@ -34,6 +34,20 @@ function controller:joystickassign()
 		self.left = "left"
 		self.jump = "up"
 	end
+end
+
+function controller:isJoystickDir(direction)
+	value = self.joystick:getGamepadAxis("leftx")
+
+	if direction == "right" then
+		return value > 0
+	end
+
+	if direction == "left" then
+		return value < 0
+	end
+
+	return false
 end
 
 return controller
