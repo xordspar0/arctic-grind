@@ -99,6 +99,10 @@ function player:input()
 	end
 end
 
+function player:intersects(x, y, width, height)
+   return self.x < x + width and x < self.x + self.width and self.y < y + height and y < self.y + self.height
+end
+
 function player:isOnGround()
 	local isOnGround
 	local groundLayer = state.level.gnd

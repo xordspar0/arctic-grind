@@ -30,4 +30,8 @@ function camera:draw(object)
 	love.graphics.pop()
 end
 
+function camera:getArea()
+	return self.x, self.y, self.width, self.height
+end
+
 return camera

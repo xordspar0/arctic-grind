@@ -2,6 +2,11 @@ local camera = require("camera")
 local player = require("player")
 local level = require("level")
 
+-- Alias unpack to table.unpack for Lua 5.1 and older.
+if not table.unpack then
+	table.unpack = unpack
+end
+
 state = {}
 
 function love.load()
@@ -21,32 +26,35 @@ function love.load()
 		state.level.music:play()
 	end
 
-	state.cameras = {
-		camera.new(0, 0, love.graphics.getWidth(), love.graphics.getHeight(),
-		           state.level.height, 10),
-	}
+	state.activeCamera = camera.new(
+		0, 0,
+		love.graphics.getWidth(), love.graphics.getHeight(),
+		state.level.height, 10
+	)
 
 	state.players = {}
 	state.players[1] = player.new(200, 10)
 end
 
 function love.update(dt)
+	state.activeCamera:update(dt)
+
+	local cameraArea = {state.activeCamera:getArea()}
+
 	for i, player in ipairs(state.players) do
 		player:update(dt)
-	end
 
-	for i, camera in ipairs(state.cameras) do
-		camera:update(dt)
+		if not player:intersects(table.unpack(cameraArea)) then
+			player:die()
+		end
 	end
 end
 
 function love.draw()
-	for i, camera in ipairs(state.cameras) do
-		camera:draw(state.level)
+	state.activeCamera:draw(state.level)
 
-		for i, player in ipairs(state.players) do
-			camera:draw(player)
-		end
+	for i, player in ipairs(state.players) do
+		state.activeCamera:draw(player)
 	end
 end
 
