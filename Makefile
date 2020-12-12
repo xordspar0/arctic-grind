@@ -12,9 +12,10 @@ app: $(apk_file)
 love_file = build/$(game_name)-$(game_version).love
 love: $(love_file)
 
-$(apk_file): $(love_file) meta/build.gradle meta/AndroidManifest.xml
+$(apk_file): $(love_file) meta/build.gradle meta/AndroidManifest.xml meta/banner.png
 	cp meta/build.gradle love-android/app/build.gradle
 	cp meta/AndroidManifest.xml love-android/app/src/embed/AndroidManifest.xml
+	cp meta/banner.png love-android/app/src/main/res/drawable-xhdpi/love.png
 	sed -i /android.permission.BLUETOOTH/d love-android/app/src/main/AndroidManifest.xml
 	cd love-android && $(env) ./gradlew assembleEmbed
 	cp love-android/app/build/outputs/apk/embed/$(release_mode)/app-embed-$(release_mode).apk $(apk_file)
