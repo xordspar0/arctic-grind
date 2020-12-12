@@ -1,4 +1,5 @@
 game_name = arctic-grind
+game_id = ht.sr.git.arcticGrind
 game_version = devel
 release_mode = debug
 
@@ -11,7 +12,8 @@ app: $(apk_file)
 love_file = build/$(game_name)-$(game_version).love
 love: $(love_file)
 
-$(apk_file): $(love_file)
+$(apk_file): $(love_file) meta/build.gradle
+	cp meta/build.gradle love-android/app/build.gradle
 	sed -i /android.permission.BLUETOOTH/d love-android/app/src/main/AndroidManifest.xml
 	cd love-android && $(env) ./gradlew assembleEmbed
 	cp love-android/app/build/outputs/apk/embed/$(release_mode)/app-embed-$(release_mode).apk $(apk_file)
@@ -25,7 +27,7 @@ install: $(apk_file)
 	adb install -r $(apk_file)
 
 launch: install
-	adb shell am start -n "org.love2d.android.embed/org.love2d.android.GameActivity" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER
+	adb shell am start -n "$(game_id).embed/org.love2d.android.GameActivity" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER
 
 # Maintenance commands
 check:
