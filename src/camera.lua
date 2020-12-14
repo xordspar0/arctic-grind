@@ -17,6 +17,7 @@ function camera.new(x, y, width, height, trackLength, speed)
 end
 
 function camera:update(dt)
+	self.y = self.y - dt*self.speed
 end
 
 function camera:draw(object)
