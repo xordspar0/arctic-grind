@@ -19,7 +19,7 @@ function tileset.new(fileName)
 			local x = tileHeight * col
 			local y = tileWidth * row
 			self.tile[i] = love.graphics.newQuad(
-				x, y, tileHeight, tileWidth,
+				x, y, tileWidth, tileHeight,
 				self.spritesheet:getDimensions())
 			i = i+1
 		end
