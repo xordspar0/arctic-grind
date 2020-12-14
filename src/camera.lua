@@ -22,7 +22,7 @@ end
 
 function camera:draw(object)
 	love.graphics.push()
-	love.graphics.translate(-self.x, -self.y)
+	love.graphics.translate(math.floor(-self.x), math.floor(-self.y))
 
 	object:draw()
 
