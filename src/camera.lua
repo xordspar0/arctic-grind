@@ -23,11 +23,9 @@ end
 function camera:draw(object)
 	love.graphics.push()
 	love.graphics.translate(-self.x, -self.y)
-	love.graphics.setScissor(self.originX, self.originY, self.width, self.height)
 
 	object:draw()
 
-	love.graphics.setScissor()
 	love.graphics.pop()
 end
 
