@@ -23,7 +23,7 @@ function resources.loadTileset(levelName)
 end
 
 function resources.loadMusic(levelName)
-	--return love.audio.newSource(levelDir .. levelName .. '/music.ogg')
+	return love.audio.newSource(levelDir .. levelName .. '/music.ogg')
 end
 
 return resources

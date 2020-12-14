@@ -17,10 +17,7 @@ function love.load()
 		end
 	end
 
-	state.level, err = level.new(levelName)
-	if err then
-		error(err)
-	end
+	state.level = level.new(levelName)
 
 	if state.level.music then
 		state.level.music:play()

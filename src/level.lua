@@ -31,11 +31,7 @@ function level.new(levelName)
 
 	self.name = levelName
 
-	-- Load the level from its file so we can pull in its data.
-	local levelFile, err = resources.loadLevel(levelName)
-	if not levelFile then
-		return nil, err
-	end
+	local levelFile = resources.loadLevel(levelName)
 	self.gnd, self.bg, self.obj, self.fg = {}, {}, {}, {}
 	for i, layer in ipairs(levelFile.layers) do
 		if layer.type == "tilelayer" and layer.name == "gnd" then
@@ -52,17 +48,10 @@ function level.new(levelName)
 	self.width = #self.gnd[1] * self.tileSize
 	self.height = #self.gnd * self.tileSize
 
-	self.tiles, err = tileset.new(levelName)
-	if not self.tiles then
-		return nil, err
-	end
+	self.tiles = tileset.new(levelName)
 
-	self.music, err = resources.loadMusic(levelName)
-	if self.music then
-		self.music:setLooping(true)
-	else
-		io.write(string.format('No music to load for level "%s"\n', levelName))
-	end
+	--self.music = resources.loadMusic(levelName)
+	--self.music:setLooping(true)
 
 	return self
 end
