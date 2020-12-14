@@ -13,15 +13,15 @@ function tileset.new(fileName)
 
 	-- Divide the spritesheet up into individual tiles.
 	self.tile = {}
-	local i = 1
 	for row=0,15 do
 		for col=0,15 do
 			local x = tileHeight * col
 			local y = tileWidth * row
-			self.tile[i] = love.graphics.newQuad(
-				x, y, tileWidth, tileHeight,
-				self.spritesheet:getDimensions())
-			i = i+1
+			local w, h = self.spritesheet:getDimensions()
+			table.insert(
+				self.tile,
+				love.graphics.newQuad(x, y, tileWidth, tileHeight, w, h)
+			)
 		end
 	end
 
