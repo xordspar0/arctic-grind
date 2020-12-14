@@ -100,7 +100,7 @@ function player:input()
 end
 
 function player:intersects(x, y, width, height)
-   return self.x < x + width and x < self.x + self.width and self.y < y + height and y < self.y + self.height
+   return self.x - self.width/2 < x + width and x < self.x + self.width/2 and self.y - self.height < y + height and y < self.y
 end
 
 function player:isOnGround()
