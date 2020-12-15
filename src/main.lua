@@ -10,6 +10,8 @@ end
 state = {}
 
 function love.load()
+	love.graphics.setDefaultFilter("nearest", "nearest")
+
 	levelName = "default"
 	for i, flag in ipairs(arg) do
 		if flag == "--level" and arg[i+1] then
