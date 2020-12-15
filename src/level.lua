@@ -32,19 +32,25 @@ function level.new(levelName)
 	self.name = levelName
 
 	local levelFile = resources.loadLevel(levelName)
-	self.gnd, self.bg, self.obj, self.fg = {}, {}, {}, {}
 	for i, layer in ipairs(levelFile.layers) do
 		if layer.type == "tilelayer" and layer.name == "background" then
 			self.background = foldTable(layer.data, layer.width)
 		elseif layer.type == "tilelayer" and layer.name == "ground" then
 			self.ground = foldTable(layer.data, layer.width)
-		elseif layer.type == "tilelayer" and layer.name == "objects" then
-			self.objects = foldTable(layer.data, layer.width)
+		elseif layer.type == "objectgroup" and layer.name == "objects" then
+			self.objects = layer.objects
 		end
 	end
 
 	self.width = #self.ground[1] * self.tileSize
 	self.height = #self.ground * self.tileSize
+
+	for i, object in ipairs(self.objects) do
+		if object.name == "spawn" then
+			self.spawnPoint = {object.x, object.y}
+			break
+		end
+	end
 
 	self.tiles = tileset.new(levelName)
 

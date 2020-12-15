@@ -32,7 +32,7 @@ function love.load()
 	)
 
 	state.players = {}
-	state.players[1] = player.new(200, 10)
+	state.players[1] = player.new(table.unpack(state.level.spawnPoint))
 end
 
 function love.update(dt)
