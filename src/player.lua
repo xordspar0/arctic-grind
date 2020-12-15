@@ -12,8 +12,8 @@ function player.new(x, y)
 	self.character = resources.loadCharacter("fox")
 
 	-- Set up innate properties.
-	self.width = 32
-	self.height = 32
+	self.width = 64
+	self.height = 64
 	self.walkingVelocity = 100  -- measured in pixels per second
 	self.jumpVelocity = -400
 	self.fallAccel = 1500		-- measured in pixels per second per second
