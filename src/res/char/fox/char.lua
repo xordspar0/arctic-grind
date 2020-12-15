@@ -33,10 +33,10 @@ Fox.animations = {
 		sprite = sprite.new(
 			resources.loadSprite("fox", "fox.png"),
 			{
-				{x = 0, y = 0},
 				{x = 64, y = 0},
 				{x = 128, y = 0},
 				{x = 192, y = 0},
+				{x = 0, y = 0},
 			},
 			64, 64, 0,
 			5
