@@ -19,5 +19,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-This program uses LÖVE. For copyright information about LÖVE and its
-dependencies, see love-android/license.txt.
+This program uses some dependencies, which have licenses of their own:
+
+- LÖVE. For copyright information about LÖVE and its dependencies, see
+  love-android/license.txt.
+
+- lume. See src/vendor/lume.lua for copyright and license information.
