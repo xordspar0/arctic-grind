@@ -105,7 +105,7 @@ end
 
 function player:isOnGround()
 	local isOnGround
-	local groundLayer = state.level.gnd
+	local groundLayer = state.level.ground
 	local tileSize = state.level.tileSize
 	local playerColCenter = math.floor(self.x / tileSize)
 	local playerColLeft = math.floor((self.x - self.width/4) / tileSize)
@@ -116,8 +116,8 @@ function player:isOnGround()
 	if not groundLayer[playerRow] or not groundLayer[playerRow][playerColCenter] then
 		isOnGround = false
 	-- Check for ground under the player's feet.
-	elseif groundLayer[playerRow][playerColLeft] == 1 or
-		groundLayer[playerRow][playerColRight] == 1 then
+	elseif groundLayer[playerRow][playerColLeft] > 0 or
+		groundLayer[playerRow][playerColRight] > 0 then
 		isOnGround = true
 	else
 		isOnGround = false
@@ -128,7 +128,7 @@ end
 
 function player:isAgainstWall(direction)
 	local isAgainstWall
-	local groundLayer = state.level.gnd
+	local groundLayer = state.level.ground
 	local tileSize = state.level.tileSize
 	local playerColLeft = math.floor((self.x - self.width/4) / tileSize)
 	local playerColRight = math.floor((self.x + self.width/4) / tileSize)
@@ -147,7 +147,7 @@ function player:isAgainstWall(direction)
 	if not groundLayer[playerRow] or not groundLayer[playerRow][playerCol] then
 		isAgainstWall = false
 	-- Check for ground on the side of the player.
-	elseif groundLayer[playerRow][playerCol] == 1 then
+	elseif groundLayer[playerRow][playerCol] > 0 then
 		isAgainstWall = true
 	else
 		isAgainstWall = false
@@ -158,7 +158,7 @@ end
 
 function player:isOnCeiling()
 	local isOnCeiling
-	local groundLayer = state.level.gnd
+	local groundLayer = state.level.ground
 	local tileSize = state.level.tileSize
 	local playerColCenter = math.floor(self.x / tileSize)
 	local playerColLeft = math.floor((self.x - self.width/4) / tileSize)
@@ -169,8 +169,8 @@ function player:isOnCeiling()
 	if not groundLayer[playerRow] or not groundLayer[playerRow][playerColCenter] then
 		isOnCeiling = false
 	-- Check for ceiling above the player's head.
-	elseif groundLayer[playerRow][playerColLeft] == 1 or
-		groundLayer[playerRow][playerColRight] == 1 then
+	elseif groundLayer[playerRow][playerColLeft] > 0 or
+		groundLayer[playerRow][playerColRight] > 0 then
 		isOnCeiling = true
 	else
 		isOnCeiling = false

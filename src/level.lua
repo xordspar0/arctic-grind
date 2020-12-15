@@ -34,19 +34,17 @@ function level.new(levelName)
 	local levelFile = resources.loadLevel(levelName)
 	self.gnd, self.bg, self.obj, self.fg = {}, {}, {}, {}
 	for i, layer in ipairs(levelFile.layers) do
-		if layer.type == "tilelayer" and layer.name == "gnd" then
-			self.gnd = foldTable(layer.data, layer.width)
-		elseif layer.type == "tilelayer" and layer.name == "bg" then
-			self.bg = foldTable(layer.data, layer.width)
-		elseif layer.type == "tilelayer" and layer.name == "obj" then
-			self.obj = foldTable(layer.data, layer.width)
-		elseif layer.type == "tilelayer" and layer.name == "fg" then
-			self.fg = foldTable(layer.data, layer.width)
+		if layer.type == "tilelayer" and layer.name == "background" then
+			self.background = foldTable(layer.data, layer.width)
+		elseif layer.type == "tilelayer" and layer.name == "ground" then
+			self.ground = foldTable(layer.data, layer.width)
+		elseif layer.type == "tilelayer" and layer.name == "objects" then
+			self.objects = foldTable(layer.data, layer.width)
 		end
 	end
 
-	self.width = #self.gnd[1] * self.tileSize
-	self.height = #self.gnd * self.tileSize
+	self.width = #self.ground[1] * self.tileSize
+	self.height = #self.ground * self.tileSize
 
 	self.tiles = tileset.new(levelName)
 
@@ -58,7 +56,7 @@ end
 
 function level:draw()
 	-- Draw the background.
-	for rowIndex, row in ipairs(self.bg) do
+	for rowIndex, row in ipairs(self.background) do
 		for colIndex, tileNumber in ipairs(row) do
 			if tileNumber > 0 then
 				love.graphics.draw(
@@ -67,8 +65,8 @@ function level:draw()
 			end
 		end
 	end
-	-- Draw the objects.
-	for rowIndex, row in ipairs(self.obj) do
+	-- Draw the walkable ground.
+	for rowIndex, row in ipairs(self.ground) do
 		for colIndex, tileNumber in ipairs(row) do
 			if tileNumber > 0 then
 				love.graphics.draw(
@@ -77,17 +75,6 @@ function level:draw()
 			end
 		end
 	end
-	-- Draw the foreground.
-	for rowIndex, row in ipairs(self.fg) do
-		for colIndex, tileNumber in ipairs(row) do
-			if tileNumber > 0 then
-				love.graphics.draw(
-				self.tiles.spritesheet, self.tiles.tile[tileNumber],
-				colIndex * self.tileSize, rowIndex * self.tileSize)
-			end
-		end
-	end
-
 end
 
 return level
