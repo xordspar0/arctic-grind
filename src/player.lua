@@ -2,6 +2,8 @@ local resources = require("resources")
 local controller = require("controller")
 local sprite = require("sprite")
 
+local lume = require("vendor/lume")
+
 local player = {}
 
 function player.new(x, y)
@@ -12,8 +14,8 @@ function player.new(x, y)
 	self.character = resources.loadCharacter("fox")
 
 	-- Set up innate properties.
-	self.width = 64
-	self.height = 64
+	self.width = 54
+	self.height = 32
 	self.walkingVelocity = 100  -- measured in pixels per second
 	self.jumpVelocity = -400
 	self.fallAccel = 1500		-- measured in pixels per second per second
@@ -100,83 +102,46 @@ function player:input()
 end
 
 function player:intersects(x, y, width, height)
-   return self.x - self.width/2 < x + width and x < self.x + self.width/2 and self.y - self.height < y + height and y < self.y
+	return self.x - self.width/2 < x + width and x < self.x + self.width/2 and self.y - self.height < y + height and y < self.y
 end
 
 function player:isOnGround()
-	local isOnGround
-	local groundLayer = state.level.ground
-	local tileSize = state.level.tileSize
-	local playerColCenter = math.floor(self.x / tileSize)
-	local playerColLeft = math.floor((self.x - self.width/4) / tileSize)
-	local playerColRight = math.floor((self.x + self.width/4) / tileSize)
-	local playerRow = math.floor(self.y / tileSize)
-
-	-- If the player is outside the level, then fall.
-	if not groundLayer[playerRow] or not groundLayer[playerRow][playerColCenter] then
-		isOnGround = false
-	-- Check for ground under the player's feet.
-	elseif groundLayer[playerRow][playerColLeft] > 0 or
-		groundLayer[playerRow][playerColRight] > 0 then
-		isOnGround = true
-	else
-		isOnGround = false
-	end
-
-	return isOnGround
+	return lume.any(
+		{
+			{self.x, self.y},
+			{self.x - self.width/4, self.y},
+			{self.x + self.width/4, self.y},
+		},
+		function(point)
+			return state.level:collides(point[1], point[2])
+		end
+	)
 end
 
 function player:isAgainstWall(direction)
-	local isAgainstWall
-	local groundLayer = state.level.ground
-	local tileSize = state.level.tileSize
-	local playerColLeft = math.floor((self.x - self.width/4) / tileSize)
-	local playerColRight = math.floor((self.x + self.width/4) / tileSize)
-	local playerRow = math.floor((self.y - self.height/2) / tileSize)
-	local playerCol
-
-	if direction == 1 then
-		playerCol = playerColRight
-	elseif direction == -1 then
-		playerCol = playerColLeft
-	else
-		return nil
-	end
-
-	-- If the player is outside the level, then there is no collision.
-	if not groundLayer[playerRow] or not groundLayer[playerRow][playerCol] then
-		isAgainstWall = false
-	-- Check for ground on the side of the player.
-	elseif groundLayer[playerRow][playerCol] > 0 then
-		isAgainstWall = true
-	else
-		isAgainstWall = false
-	end
-
-	return isAgainstWall
+	local x = self.x + direction * self.width / 2
+	return lume.any(
+		{
+			{x, self.y - self.height/2},
+			{x, self.y - self.height},
+		},
+		function(point)
+			return state.level:collides(point[1], point[2])
+		end
+	)
 end
 
 function player:isOnCeiling()
-	local isOnCeiling
-	local groundLayer = state.level.ground
-	local tileSize = state.level.tileSize
-	local playerColCenter = math.floor(self.x / tileSize)
-	local playerColLeft = math.floor((self.x - self.width/4) / tileSize)
-	local playerColRight = math.floor((self.x + self.width/4) / tileSize)
-	local playerRow = math.floor((self.y-self.height) / tileSize)
-
-	-- If the player is outside the level, then there is no collision.
-	if not groundLayer[playerRow] or not groundLayer[playerRow][playerColCenter] then
-		isOnCeiling = false
-	-- Check for ceiling above the player's head.
-	elseif groundLayer[playerRow][playerColLeft] > 0 or
-		groundLayer[playerRow][playerColRight] > 0 then
-		isOnCeiling = true
-	else
-		isOnCeiling = false
-	end
-
-	return isOnCeiling
+	return lume.any(
+		{
+			{self.x, self.y - self.height},
+			{self.x - self.width/4, self.y - self.height},
+			{self.x + self.width/4, self.y - self.height},
+		},
+		function(point)
+			return state.level:collides(point[1], point[2])
+		end
+	)
 end
 
 return player

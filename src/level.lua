@@ -62,25 +62,39 @@ end
 
 function level:draw()
 	-- Draw the background.
-	for rowIndex, row in ipairs(self.background) do
-		for colIndex, tileNumber in ipairs(row) do
-			if tileNumber > 0 then
+	for y = 0, #self.background - 1 do
+		for x = 0, #self.background[y+1] - 1 do
+			local tileType = self.background[y+1][x+1]
+			if tileType > 0 then
 				love.graphics.draw(
-				self.tiles.spritesheet, self.tiles.tile[tileNumber],
-				colIndex * self.tileSize, rowIndex * self.tileSize)
+				self.tiles.spritesheet, self.tiles.tile[tileType],
+				x * self.tileSize, y * self.tileSize)
 			end
 		end
 	end
 	-- Draw the walkable ground.
-	for rowIndex, row in ipairs(self.ground) do
-		for colIndex, tileNumber in ipairs(row) do
-			if tileNumber > 0 then
+	for y = 0, #self.ground - 1 do
+		for x = 0, #self.ground[y+1] - 1  do
+			local tileType = self.ground[y+1][x+1]
+			if tileType > 0 then
 				love.graphics.draw(
-				self.tiles.spritesheet, self.tiles.tile[tileNumber],
-				colIndex * self.tileSize, rowIndex * self.tileSize)
+				self.tiles.spritesheet, self.tiles.tile[tileType],
+				x * self.tileSize, y * self.tileSize)
 			end
 		end
 	end
+end
+
+function level:collides(x, y)
+	local column = math.floor(x / self.tileSize) + 1
+	local row = math.floor(y / self.tileSize) + 1
+
+	-- If outside the level, then there is no collision.
+	if not self.ground[row] or not self.ground[row][col] then
+		return false
+	end
+
+	return self.ground[row][column] > 0
 end
 
 return level
