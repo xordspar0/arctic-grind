@@ -15,6 +15,8 @@ function camera.new(x, y, width, height, trackLength, speed)
 end
 
 function camera:update(dt)
+	if state.debug then return end
+
 	self.y = self.y - dt*self.speed
 end
 

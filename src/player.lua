@@ -67,6 +67,31 @@ function player:draw()
 	local y = math.floor(self.y)
 
 	self.character:draw(x, y, self.facing)
+
+	if state.debug then
+		lume.each(
+			{
+				{self.x, self.y},
+				{self.x - self.width/4, self.y},
+				{self.x + self.width/4, self.y},
+				{x, self.y - self.height/4},
+				{x, self.y - self.height},
+				{self.x, self.y - self.height},
+				{self.x - self.width/4, self.y - self.height},
+				{self.x + self.width/4, self.y - self.height},
+			},
+			function(point)
+				local x, y = table.unpack(point)
+				if state.level:collides(x, y) then
+					love.graphics.setColor(1, 0, 0)
+				else
+					love.graphics.setColor(0, 1, 0)
+				end
+				love.graphics.points(x, y)
+			end
+		)
+		love.graphics.setColor(1, 1, 1)
+	end
 end
 
 function player:joystickadded()
@@ -119,10 +144,10 @@ function player:isOnGround()
 end
 
 function player:isAgainstWall(direction)
-	local x = self.x + direction * self.width / 2
+	local x = self.x + direction * self.width / 4
 	return lume.any(
 		{
-			{x, self.y - self.height/2},
+			{x, self.y - self.height/4},
 			{x, self.y - self.height},
 		},
 		function(point)

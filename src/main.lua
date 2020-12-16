@@ -61,6 +61,10 @@ function love.keypressed(key)
 	if key == "escape" then
 		love.event.quit()
 	end
+
+	if key == "`" then
+		state.debug = not state.debug
+	end
 end
 
 function love.joystickadded()
