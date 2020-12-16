@@ -26,7 +26,7 @@ function love.load()
 	end
 
 	state.activeCamera = camera.new(
-		0, 0,
+		state.level.spawnPoint[1], state.level.spawnPoint[2],
 		love.graphics.getWidth(), love.graphics.getHeight(),
 		state.level.height, 10
 	)

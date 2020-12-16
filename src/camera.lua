@@ -4,10 +4,8 @@ function camera.new(x, y, width, height, trackLength, speed)
 	local self = {}
 	setmetatable(self, {__index = camera})
 
-	self.originX = x
-	self.originY = y
-	self.x = 0
-	self.y = 0
+	self.x = x - width / 2
+	self.y = y - height / 2
 	self.width = width
 	self.height = height
 	self.length = trackLength
