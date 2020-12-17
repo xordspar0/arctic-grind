@@ -71,14 +71,9 @@ function player:draw()
 	if state.debug then
 		lume.each(
 			{
-				{self.x, self.y},
-				{self.x - self.width/4, self.y},
-				{self.x + self.width/4, self.y},
-				{x, self.y - self.height/4},
-				{x, self.y - self.height},
-				{self.x, self.y - self.height},
-				{self.x - self.width/4, self.y - self.height},
-				{self.x + self.width/4, self.y - self.height},
+				table.unpack(self:groundPoints()),
+				table.unpack(self:wallPoints()),
+				table.unpack(self:ceilingPoints()),
 			},
 			function(point)
 				local x, y = table.unpack(point)
@@ -130,13 +125,31 @@ function player:intersects(x, y, width, height)
 	return self.x - self.width/2 < x + width and x < self.x + self.width/2 and self.y - self.height < y + height and y < self.y
 end
 
+function player:groundPoints()
+	return {
+		{self.x, self.y},
+		{self.x - self.width/4, self.y},
+		{self.x + self.width/4, self.y},
+	}
+end
+
+function player:wallPoints()
+	return {
+		{self.x + self.facing * self.width / 4, self.y - self.height/4},
+		{self.x + self.facing * self.width / 4, self.y - self.height},
+	}
+end
+
+function player:ceilingPoints()
+	return {
+		{self.x, self.y - self.height},
+		{self.x - self.width/4 + 1, self.y - self.height},
+		{self.x + self.width/4 - 1, self.y - self.height},
+	}
+end
+
 function player:isOnGround()
-	return lume.any(
-		{
-			{self.x, self.y},
-			{self.x - self.width/4, self.y},
-			{self.x + self.width/4, self.y},
-		},
+	return lume.any(self:groundPoints(),
 		function(point)
 			return state.level:collides(point[1], point[2])
 		end
@@ -144,12 +157,7 @@ function player:isOnGround()
 end
 
 function player:isAgainstWall(direction)
-	local x = self.x + direction * self.width / 4
-	return lume.any(
-		{
-			{x, self.y - self.height/4},
-			{x, self.y - self.height},
-		},
+	return lume.any(self:wallPoints(),
 		function(point)
 			return state.level:collides(point[1], point[2])
 		end
@@ -157,12 +165,7 @@ function player:isAgainstWall(direction)
 end
 
 function player:isOnCeiling()
-	return lume.any(
-		{
-			{self.x, self.y - self.height},
-			{self.x - self.width/4, self.y - self.height},
-			{self.x + self.width/4, self.y - self.height},
-		},
+	return lume.any(self:ceilingPoints(),
 		function(point)
 			return state.level:collides(point[1], point[2])
 		end
