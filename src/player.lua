@@ -54,6 +54,11 @@ function player:update(dt)
 
 	if self:isAgainstWall(self.facing) then
 		self.xVelocity = 0
+		if self.character:getAnim() ~= "scrunched" then
+			self.character:setAnim("scrunched")
+		end
+	elseif self.character:getAnim() == "scrunched" then
+		self.character:setAnim("stand")
 	end
 
 	if self:isOnCeiling() and self.yVelocity < 0 then

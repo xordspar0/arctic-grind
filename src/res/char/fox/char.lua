@@ -42,7 +42,20 @@ Fox.animations = {
 			5
 		),
 		loop = true
-	}
+	},
+
+	scrunched = {
+		sprite = sprite.new(
+			resources.loadSprite("fox", "fox.png"),
+			{
+				{x = 0, y = 64},
+				{x = 64, y = 64},
+			},
+			64, 64, 0,
+			10
+		),
+		loop = false
+	},
 }
 
 Fox.currentAnim = Fox.animations.stand
