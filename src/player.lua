@@ -85,11 +85,11 @@ function player:draw()
 
 	if state.debug then
 		lume.each(
-			{
-				table.unpack(self:groundPoints()),
-				table.unpack(self:wallPoints()),
-				table.unpack(self:ceilingPoints()),
-			},
+			lume.concat(
+				self:groundPoints(),
+				self:wallPoints(),
+				self:ceilingPoints()
+			),
 			function(point)
 				local x, y = table.unpack(point)
 				if state.level:collides(x, y) then
