@@ -85,6 +85,9 @@ function player:draw()
 	self.character:draw(x, y, self.facing)
 
 	if state.debug then
+		love.graphics.setColor(0.5, 0.5, 0.5)
+		love.graphics.print(math.floor(self.x) .. ", " .. math.floor(self.y), state.activeCamera.x, state.activeCamera.y)
+
 		lume.each(
 			lume.concat(
 				self:groundPoints(),
