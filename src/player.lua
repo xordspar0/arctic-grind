@@ -17,8 +17,8 @@ function player.new(x, y)
 	self.width = 54
 	self.height = 32
 	self.walkingVelocity = 100  -- measured in pixels per second
-	self.jumpVelocity = -400
-	self.fallAccel = 1500		-- measured in pixels per second per second
+	self.jumpVelocity = -500
+	self.fallAccel = 1800		-- measured in pixels per second per second
 
 	-- Set up values for initial state.
 	self.currentFrame = 1
