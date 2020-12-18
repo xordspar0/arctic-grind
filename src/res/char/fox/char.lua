@@ -12,9 +12,9 @@ Fox.animations = {
 				{x = 0, y = 0},
 			},
 			64, 64, 0,				-- The width and height of each frame, how high the feet are in that frame.
-			5						-- The frames per second of this animation.
-		),
-		loop = true
+			0,						-- The frames per second of this animation.
+			false                   -- Whether this animation loops.
+		)
 	},
 
 	stand = {
@@ -24,9 +24,9 @@ Fox.animations = {
 				{x = 0, y = 0},
 			},
 			64, 64, 0,
-			5
-		),
-		loop = true
+			0,
+			false
+		)
 	},
 
 	walk = {
@@ -39,9 +39,9 @@ Fox.animations = {
 				{x = 0, y = 0},
 			},
 			64, 64, 0,
-			5
-		),
-		loop = true
+			5,
+			true
+		)
 	},
 
 	scrunched = {
@@ -52,9 +52,9 @@ Fox.animations = {
 				{x = 64, y = 64},
 			},
 			64, 64, 0,
-			10
-		),
-		loop = false
+			10,
+			false
+		)
 	},
 }
 

@@ -1,6 +1,8 @@
+local lume = require("vendor/lume")
+
 local sprite = {}
 
-function sprite.new(image, frames, frameWidth, frameHeight, feetHeight, fps)
+function sprite.new(image, frames, frameWidth, frameHeight, feetHeight, fps, looping)
 	local self = {}
 	setmetatable(self, {__index = sprite})
 
@@ -10,6 +12,7 @@ function sprite.new(image, frames, frameWidth, frameHeight, feetHeight, fps)
 	self.frameHeight = frameHeight
 	self.feetHeight = feetHeight
 	self.framesPerSecond = fps
+	self.looping = looping
 
 	self.frames = {}
 	for i, frame in ipairs(frames) do
@@ -29,15 +32,20 @@ end
 
 function sprite:resetFrame()
 	self.startTime = love.timer.getTime()
-	self.currentFrame = math.floor(
-		(self.framesPerSecond * (love.timer.getTime() - self.startTime))
-		% self.numFrames) + 1
+	self.currentFrame = 1
 end
 
 function sprite:update(dt)
-	self.currentFrame = math.floor(
-		(self.framesPerSecond * (love.timer.getTime() - self.startTime))
-		% self.numFrames) + 1
+	if self.looping then
+		self.currentFrame = math.floor(
+			(self.framesPerSecond * (love.timer.getTime() - self.startTime))
+			% self.numFrames) + 1
+	else
+		self.currentFrame = math.floor(lume.lerp(
+			1, self.numFrames,
+			(love.timer.getTime() - self.startTime) / (self.numFrames / self.framesPerSecond / self.numFrames)
+		))
+	end
 end
 
 function sprite:draw(x, y, facing)
