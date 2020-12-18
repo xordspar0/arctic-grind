@@ -138,21 +138,6 @@ function player:groundPoints()
 	}
 end
 
-function player:wallPoints()
-	return {
-		{self.x + self.facing * self.width / 4, self.y - self.height/4},
-		{self.x + self.facing * self.width / 4, self.y - self.height},
-	}
-end
-
-function player:ceilingPoints()
-	return {
-		{self.x, self.y - self.height},
-		{self.x - self.width/4 + 1, self.y - self.height},
-		{self.x + self.width/4 - 1, self.y - self.height},
-	}
-end
-
 function player:isOnGround()
 	return lume.any(self:groundPoints(),
 		function(point)
@@ -161,12 +146,27 @@ function player:isOnGround()
 	)
 end
 
+function player:wallPoints()
+	return {
+		{self.x + self.facing * self.width / 4, self.y - self.height/4},
+		{self.x + self.facing * self.width / 4, self.y - self.height},
+	}
+end
+
 function player:isAgainstWall(direction)
 	return lume.any(self:wallPoints(),
 		function(point)
 			return state.level:collides(point[1], point[2])
 		end
 	)
+end
+
+function player:ceilingPoints()
+	return {
+		{self.x, self.y - self.height},
+		{self.x - self.width/4 + 1, self.y - self.height},
+		{self.x + self.width/4 - 1, self.y - self.height},
+	}
 end
 
 function player:isOnCeiling()
