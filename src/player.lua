@@ -159,8 +159,7 @@ end
 
 function player:wallPoints()
 	return {
-		{self.x + self.facing * self.width / 4, self.y - self.height/4},
-		{self.x + self.facing * self.width / 4, self.y - self.height},
+		{self.x + self.facing * (self.width / 4 + 2), self.y - self.height/2},
 	}
 end
 
@@ -175,8 +174,8 @@ end
 function player:ceilingPoints()
 	return {
 		{self.x, self.y - self.height},
-		{self.x - self.width/4 + 1, self.y - self.height},
-		{self.x + self.width/4 - 1, self.y - self.height},
+		{self.x - self.width/4, self.y - self.height},
+		{self.x + self.width/4, self.y - self.height},
 	}
 end
 
