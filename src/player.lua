@@ -36,6 +36,11 @@ function player:update(dt)
 	self:input()
 	self.character:update(dt)
 
+	-- Apply acceleration and velocity; set coordinates accordingly.
+	self.yVelocity = self.yVelocity + (self.yAccel * dt)
+	self.x = self.x + (self.xVelocity * dt)
+	self.y = self.y + (self.yVelocity * dt)
+
 	if self.yVelocity > 0 then
 		self.character:setAnim("fall")
 	end
@@ -59,11 +64,6 @@ function player:update(dt)
 		self.yVelocity = 0
 		self.yAccel = 0
 	end
-
-	-- Apply acceleration and velocity; set coordinates accordingly.
-	self.yVelocity = self.yVelocity + (self.yAccel * dt)
-	self.x = self.x + (self.xVelocity * dt)
-	self.y = self.y + (self.yVelocity * dt)
 end
 
 function player:draw()
