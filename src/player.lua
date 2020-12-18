@@ -160,6 +160,7 @@ end
 function player:wallPoints()
 	return {
 		{self.x + self.facing * (self.width / 4 + 2), self.y - self.height/2},
+		{self.x + self.facing * (self.width / 4 + 2), self.y - 1},
 	}
 end
 
