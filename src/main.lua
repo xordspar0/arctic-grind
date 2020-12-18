@@ -43,7 +43,7 @@ function love.update(dt)
 	for i, player in ipairs(state.players) do
 		player:update(dt)
 
-		if not player:intersects(table.unpack(cameraArea)) then
+		if not player:intersects(cameraArea[1] - 64, cameraArea[2] - 64, cameraArea[3] + 128, cameraArea[4] + 128) then
 			player:die()
 		end
 	end
