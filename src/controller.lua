@@ -40,11 +40,11 @@ function controller:isJoystickDir(direction)
 	value = self.joystick:getGamepadAxis("leftx")
 
 	if direction == "right" then
-		return value > 0
+		return value > 0.2
 	end
 
 	if direction == "left" then
-		return value < 0
+		return value < -0.2
 	end
 
 	return false
