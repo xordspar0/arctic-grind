@@ -54,12 +54,10 @@ function Fox:getAnim()
 end
 
 function Fox:setAnim(animation)
-	if self.animations[animation] then
-		self.currentAnim = self.animations[animation]
-		self.currentAnimName = animation
-		self.animationOver = false
-		self.currentAnim.sprite:resetFrame()
-	end
+	self.currentAnim = self.animations[animation]
+	self.currentAnimName = animation
+	self.animationOver = false
+	self.currentAnim.sprite:resetFrame()
 end
 
 function Fox:update(dt)

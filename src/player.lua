@@ -36,11 +36,15 @@ function player:update(dt)
 	self:input()
 	self.character:update(dt)
 
-	if self:isOnGround() and self.yVelocity > 0 then
-		self.yVelocity = 0
-		self.yAccel = 0
+	if self.yVelocity > 0 then
+		self.character:setAnim("fall")
+	end
+
+	if self:isOnGround() then
 		self.y = math.floor(self.y / state.level.tileSize) * state.level.tileSize
-		if self.character:getAnim() == "jump" then
+		if self.character:getAnim() == "fall" then
+			self.yVelocity = 0
+			self.yAccel = 0
 			self.character:setAnim("stand")
 		end
 	else
@@ -115,6 +119,7 @@ function player:input()
 
 	if self:isOnGround() and self.controller:isDown("jump") then
 		self.yVelocity = self.jumpVelocity
+		self.character:setAnim("jump")
 	end
 	if self.onGround and self.character:getAnim() == "jump" then
 		self.character:setAnim("stand")
