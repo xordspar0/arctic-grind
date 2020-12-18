@@ -33,20 +33,16 @@ function player.new(x, y)
 end
 
 function player:update(dt)
+	-- Apply input to modify acceleration and velocity.
 	self:input()
 	self.character:update(dt)
 
-	-- Apply acceleration and velocity; set coordinates accordingly.
-	self.yVelocity = self.yVelocity + (self.yAccel * dt)
-	self.x = self.x + (self.xVelocity * dt)
-	self.y = self.y + (self.yVelocity * dt)
-
+	-- Adjust acceleration and velocity.
 	if self.yVelocity > 0 then
 		self.character:setAnim("fall")
 	end
 
 	if self:isOnGround() then
-		self.y = math.floor(self.y / state.level.tileSize) * state.level.tileSize
 		if self.character:getAnim() == "fall" then
 			self.yVelocity = 0
 			self.yAccel = 0
@@ -63,6 +59,16 @@ function player:update(dt)
 	if self:isOnCeiling() and self.yVelocity < 0 then
 		self.yVelocity = 0
 		self.yAccel = 0
+	end
+
+	-- Apply acceleration and velocity; set coordinates accordingly.
+	self.yVelocity = self.yVelocity + (self.yAccel * dt)
+	self.x = self.x + (self.xVelocity * dt)
+	self.y = self.y + (self.yVelocity * dt)
+
+	-- Adjust position.
+	if self:isOnGround() then
+		self.y = math.floor(self.y / state.level.tileSize) * state.level.tileSize
 	end
 end
 
