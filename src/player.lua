@@ -54,9 +54,6 @@ function player:update(dt)
 
 	if self:isAgainstWall(self.facing) then
 		self.xVelocity = 0
-		if self.character:getAnim() ~= "scrunched" then
-			self.character:setAnim("scrunched")
-		end
 	elseif self.character:getAnim() == "scrunched" then
 		self.character:setAnim("stand")
 	end
@@ -64,6 +61,10 @@ function player:update(dt)
 	if self:isOnCeiling() and self.yVelocity < 0 then
 		self.yVelocity = 0
 		self.yAccel = 0
+	end
+
+	if self:isNoseBumping() and self.character:getAnim() ~= "scrunched" then
+		self.character:setAnim("scrunched")
 	end
 
 	-- Apply acceleration and velocity; set coordinates accordingly.
@@ -88,7 +89,8 @@ function player:draw()
 			lume.concat(
 				self:groundPoints(),
 				self:wallPoints(),
-				self:ceilingPoints()
+				self:ceilingPoints(),
+				self:nosePoints()
 			),
 			function(point)
 				local x, y = table.unpack(point)
@@ -182,6 +184,20 @@ end
 
 function player:isOnCeiling()
 	return lume.any(self:ceilingPoints(),
+		function(point)
+			return state.level:collides(point[1], point[2])
+		end
+	)
+end
+
+function player:nosePoints()
+	return {
+		{self.x + self.facing * (self.width / 4 + 2), self.y - self.height},
+	}
+end
+
+function player:isNoseBumping()
+	return lume.any(self:nosePoints(),
 		function(point)
 			return state.level:collides(point[1], point[2])
 		end
